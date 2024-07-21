@@ -5,11 +5,3 @@ If you’re ready to transform your government, B2B or B2C website or digital se
 ---
 
 We are user researchers, UX specialists, designers, full-stack developers, content strategists and writers in Melbourne, Sydney, Canberra and Brisbane.
-
----
-
-2024 staff migrating from BitBucket?
-
-```bash
-git remote set-url "origin" git@github.com:icon-agency/REPO-HERE.git
-```
