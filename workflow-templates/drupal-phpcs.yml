@@ -1,0 +1,40 @@
+name: Drupal PHPCS
+
+on:
+  pull_request:
+    paths:
+      - "{docroot,web}/{modules,themes}/custom/**/*.{php,module,inc,install,profile,theme,yml}"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine PHP version
+        id: set-php-version
+        run: |
+          if [ -f .platform.app.yaml ]; then
+            php_version=$(grep -oP "type: 'php:\K[0-9]\.[0-9]'" .platform.app.yaml)
+            echo "::set-output name=php-version::$php_version"
+          else
+            echo "::set-output name=php-version::8.1"
+          fi
+
+      - name: Setup PHP ${{ steps.set-php-version.outputs.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.set-php-version.outputs.php-version }}
+          tools: "cs2pr, phpcs, composer"
+
+      - name: Install Drupal Coder
+        run: |
+          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --ignore-platform-reqs drupal/coder
+
+      - name: PHPCS
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            phpcs -q --report=checkstyle --standard=Drupal,DrupalPractice -n $file | cs2pr
+          done

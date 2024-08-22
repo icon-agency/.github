@@ -1,0 +1,5 @@
+{
+  "name": "Drupal PHPCS",
+  "iconName": "octicon flame",
+  "categories": ["code-quality", "Composer", "PHP"]
+}
