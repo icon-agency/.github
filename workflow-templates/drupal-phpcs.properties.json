@@ -1,5 +1,6 @@
 {
   "name": "Drupal PHPCS",
+  "description": "This workflow checks your Drupal codebase for coding standards issues using PHPCS.",
   "iconName": "octicon flame",
   "categories": ["code-quality", "Composer", "PHP"]
 }
