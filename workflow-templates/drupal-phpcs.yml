@@ -33,6 +33,16 @@ jobs:
           composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require --ignore-platform-reqs drupal/coder
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: "{docroot,web}/{modules,themes}/custom/**/*.{php,module,inc,install,profile,theme,yml}"
+          files_ignore: |
+            *Test.php
+            *TestBase.php
+            **/tests/
+
       - name: PHPCS
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
